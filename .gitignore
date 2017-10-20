@@ -1,0 +1,13 @@
+*.iml
+.idea
+target
+.DS_Store
+*.versionsBackup
+dependency-reduced-pom.xml
+.project
+.classpath
+.settings
+.factorypath
+.apt_generated
+**/log/**
+.DS_Store
