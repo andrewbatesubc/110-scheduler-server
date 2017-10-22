@@ -14,4 +14,6 @@ public interface ScheduleDao {
     void deleteAllSchedules() throws URISyntaxException, SQLException;
     void setScheduleInDataSource(final ScheduleDto newSchedule) throws URISyntaxException, SQLException;
     ScheduleDto getScheduleFromDataSource(final String taName) throws URISyntaxException, SQLException;
+    ScheduleDto[] getAllSchedulesFromDataSource() throws URISyntaxException, SQLException;
+
 }

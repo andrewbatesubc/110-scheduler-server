@@ -28,6 +28,10 @@ public class ScheduleEndPoint {
     public ScheduleDto getSchedule(@PathVariable("taName") String taName) throws URISyntaxException, SQLException {
         return scheduleController.getSchedule(taName);
     }
+    @RequestMapping(method= RequestMethod.GET, value = "/getAllSchedules")
+    public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
+        return scheduleController.getAllSchedules();
+    }
 
     @RequestMapping(method= RequestMethod.DELETE, value = "/deleteSchedule/{taName}")
     public void deleteSchedule(@PathVariable("taName") String taName) throws URISyntaxException, SQLException {
