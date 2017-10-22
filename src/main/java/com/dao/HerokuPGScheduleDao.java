@@ -12,11 +12,11 @@ import java.sql.*;
 public class HerokuPGScheduleDao implements ScheduleDao {
 
     private final DataSourceCredentialsDao credentialsDao;
-    private final SQLStatements sqlStatements;
+    private final PostgresSQLStatements sqlStatements;
 
     @Autowired
     public HerokuPGScheduleDao(@Qualifier("herokuCredentialsDao") final DataSourceCredentialsDao credentialsDao,
-                               SQLStatements storedProcedures){
+                               PostgresSQLStatements storedProcedures){
         this.credentialsDao = credentialsDao;
         this.sqlStatements = storedProcedures;
     }
@@ -30,6 +30,16 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         try {
             //dropTable();
             createTable();
+            String[] testArray = new String[]{
+                    "napnapnapnapnapnapnapnappp",
+                    "napnapnapnapnapnapnapnappp",
+                    "napnapnapnapnapnapnapnappp",
+                    "napnapnapnapnapnapnapnappp",
+                    "napnapnapnapnapnapnapnappp",
+                    "napnapnapnapnapnapnapnappp",
+                    "napnapnapnapnapnapnapnappp"};
+            upsertSchedule("andrew_bates", testArray);
+            upsertSchedule("andrew_bates", testArray);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -67,6 +77,38 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         PreparedStatement pstmt;
         try {
             pstmt = connection.prepareStatement(sqlStatements.dropTableSQL());
+            pstmt.execute();
+            connection.commit();
+            pstmt.close();
+        }finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    private void upsertSchedule(final String taName, final String[] schedule) throws URISyntaxException, SQLException {
+        Connection connection = getDBConnection();
+        connection.setAutoCommit(false);
+        PreparedStatement pstmt;
+        try {
+            pstmt = connection.prepareStatement(sqlStatements.createUpsertSQL(taName, schedule));
+            pstmt.execute();
+            connection.commit();
+            pstmt.close();
+        }finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    private void selectSchedule(final String taName) throws URISyntaxException, SQLException {
+        Connection connection = getDBConnection();
+        connection.setAutoCommit(false);
+        PreparedStatement pstmt;
+        try {
+            pstmt = connection.prepareStatement(sqlStatements.createSelectSQL(taName));
             pstmt.execute();
             connection.commit();
             pstmt.close();
