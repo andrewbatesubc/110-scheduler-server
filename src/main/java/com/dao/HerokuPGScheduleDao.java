@@ -29,8 +29,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     @Override
     public ScheduleDto getScheduleFromDataSource(String taName) {
         try {
-            //dropTable();
-
+            dropTable();
             createTable();
             String[] testArray = new String[]{
                     "mmmmmmmmmmmmmmmmmmmmmmmmmmmm",
@@ -40,8 +39,9 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                     "ffffffffffffffffffffffffffffffff",
                     "sasasasasasasasasasasasasasasasa",
                     "susususususususususususususususu"};
-            //upsertSchedule("andrew_bates", testArray);
+
             if(count == 0){
+                System.out.println("UPDATING ... ");
                 upsertSchedule("andrew_bates", testArray);
                 count++;
             }
@@ -100,7 +100,6 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     private void upsertSchedule(final String taName, final String[] schedule) throws URISyntaxException, SQLException {
-        //System.out.println(sqlStatements.createUpsertSQL(taName, schedule));
         Connection connection = getDBConnection();
         connection.setAutoCommit(false);
         PreparedStatement pstmt;
@@ -125,20 +124,20 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             while(rs.next()){
                // results = new String[7];
 
-                System.out.println(rs.getString(1));
+                System.out.println(rs.getString("Monday"));
 
                // results[1] = rs.getString("Tuesday");
-                System.out.println(rs.getString(2));
+                System.out.println(rs.getString("Tuesday"));
                 //results[2] = rs.getString("Wednesday");
-                System.out.println(rs.getString(3));
+                System.out.println(rs.getString("Wednesday"));
                // results[3] = rs.getString("Thursday");
-                System.out.println(rs.getString(4));
+                System.out.println(rs.getString("Thursday"));
                // results[4] = rs.getString("Friday");
-                System.out.println(rs.getString(5));
+                System.out.println(rs.getString("Friday"));
                // results[5] = rs.getString("Saturday");
-                System.out.println(rs.getString(6));
+                System.out.println(rs.getString("Saturday"));
                 //results[6] = rs.getString("Sunday");
-                System.out.println(rs.getString(7));
+                System.out.println(rs.getString("Sunday"));
             }
         }finally {
             if (connection != null) {
