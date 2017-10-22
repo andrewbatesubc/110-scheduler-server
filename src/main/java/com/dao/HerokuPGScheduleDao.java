@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component("sqlScheduleDao")
 public class HerokuPGScheduleDao implements ScheduleDao {
@@ -46,7 +48,10 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                 count++;
             }
 
-            selectSchedule("andrew_bates");
+            String[] results = selectSchedule("andrew_bates");
+            for(String s : results){
+                System.out.println(s);
+            }
            // String[] newTest = selectSchedule("andrew_bates");
            // System.out.println("Shedule returned: ");
             //for(int i = 0; i < newTest.length; i++){
@@ -118,32 +123,23 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     private String[] selectSchedule(final String taName) throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
         Statement statement = connection.createStatement();
-        String[] results = null;
+        List<String> schedule = new ArrayList<>();
         try {
             ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName));
             while(rs.next()){
-               // results = new String[7];
-
-                System.out.println(rs.getString("Monday"));
-
-               // results[1] = rs.getString("Tuesday");
-                System.out.println(rs.getString("Tuesday"));
-                //results[2] = rs.getString("Wednesday");
-                System.out.println(rs.getString("Wednesday"));
-               // results[3] = rs.getString("Thursday");
-                System.out.println(rs.getString("Thursday"));
-               // results[4] = rs.getString("Friday");
-                System.out.println(rs.getString("Friday"));
-               // results[5] = rs.getString("Saturday");
-                System.out.println(rs.getString("Saturday"));
-                //results[6] = rs.getString("Sunday");
-                System.out.println(rs.getString("Sunday"));
+                schedule.add(rs.getString("Monday"));
+                schedule.add(rs.getString("Tuesday"));
+                schedule.add(rs.getString("Wednesday"));
+                schedule.add(rs.getString("Thursday"));
+                schedule.add(rs.getString("Friday"));
+                schedule.add(rs.getString("Saturday"));
+                schedule.add(rs.getString("Sunday"));
             }
         }finally {
             if (connection != null) {
                 connection.close();
             }
         }
-        return results;
+        return (String[])schedule.toArray();
     }
 }
