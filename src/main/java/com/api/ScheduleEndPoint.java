@@ -1,26 +1,30 @@
 package com.api;
 
-import cloud.orbit.concurrent.Task;
-import com.actors.Schedule;
 
-import javax.inject.Singleton;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import com.controllers.ScheduleController;
+import com.dto.ScheduleDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Endpoint that the scheduler client will hit to grab/update existing schedules, and store
  * new ones
  */
-@Singleton
-@Path("/schedule")
+@RestController
+//@RequestMapping("/schedule")
 public class ScheduleEndPoint {
 
-    @GET
-    @Path("/taName/{taName}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Task<String[]> getSchedule(@PathParam("taName") String taName)
-    {
-        return Schedule.getActor(taName).getSchedule(taName);
+    private final ScheduleController scheduleController;
+
+    @Autowired
+    public ScheduleEndPoint(final ScheduleController scheduleController){
+        this.scheduleController = scheduleController;
+    }
+
+    @RequestMapping("/schedule")
+    public ScheduleDto getSchedule() {
+        return scheduleController.getSchedule("zsasdf");
     }
 
     /**
@@ -28,12 +32,14 @@ public class ScheduleEndPoint {
      * we add it. If we have already seen it, we update it.
      * @param taName
      * @return
-     */
+
     @POST
-    @Path("/taName/{taName}")
+    @Path("/setSchedule/taName/{taName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Task<Void> setSchedule(@PathParam("taName") String taName)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Task<Void> setSchedule(@PathParam("taName") String taName,
+                                  final ScheduleDto scheduleDto)
     {
-        return Schedule.getActor(taName).setSchedule(taName, new String[1]);
-    }
+        return Schedule.getActor(taName).setSchedule(taName, scheduleDto);
+    }*/
 }
