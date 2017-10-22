@@ -1,7 +1,6 @@
 package com.controllers;
 
 import com.dao.ScheduleDao;
-import com.dao.SqlScheduleDao;
 import com.dto.ScheduleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
