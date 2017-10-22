@@ -7,7 +7,7 @@ public class SQLStatements {
 
     private final String tableName = "Schedules";
 
-    private String createTableCreationProcedure() {
+    public String createTableSQL() {
         return "CREATE TABLE IF NOT EXISTS " + tableName + "("
                         + "TAName varchar(255) NOT NULL,"
                         + "Monday varchar(255) NOT NULL,"

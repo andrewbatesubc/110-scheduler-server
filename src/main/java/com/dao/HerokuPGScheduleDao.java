@@ -6,22 +6,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 @Component("sqlScheduleDao")
 public class HerokuPGScheduleDao implements ScheduleDao {
 
     private final DataSourceCredentialsDao credentialsDao;
-    private final SQLStatements storedProcedures;
+    private final SQLStatements sqlStatements;
 
     @Autowired
     public HerokuPGScheduleDao(@Qualifier("herokuCredentialsDao") final DataSourceCredentialsDao credentialsDao,
                                SQLStatements storedProcedures){
         this.credentialsDao = credentialsDao;
-        this.storedProcedures = storedProcedures;
+        this.sqlStatements = storedProcedures;
     }
 
     @Override
@@ -49,14 +46,13 @@ public class HerokuPGScheduleDao implements ScheduleDao {
 
     private void createTable() throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
-        Statement stmt =null;
+        PreparedStatement pstmt;
         try {
-            stmt = connection.createStatement();
-            stmt.execute(storedProcedures.createTableProcedureName);
+            pstmt = connection.prepareStatement(sqlStatements.createTableSQL());
+            pstmt.execute();
+            connection.commit();
+            pstmt.close();
         }finally {
-            if (stmt != null) {
-                stmt.close();
-            }
             if (connection != null) {
                 connection.close();
             }
