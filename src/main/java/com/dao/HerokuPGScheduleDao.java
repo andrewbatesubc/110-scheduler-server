@@ -140,6 +140,6 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                 connection.close();
             }
         }
-        return (String[])schedule.toArray();
+        return schedule.toArray(new String[7]);
     }
 }
