@@ -24,48 +24,13 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     @Override
-    public void setScheduleInDataSource(ScheduleDto newSchedule) {
+    public void setScheduleInDataSource(final String taName, final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
+        upsertSchedule(taName, newSchedule.getSchedulesByDay());
     }
 
-    int count = 0;
     @Override
-    public ScheduleDto getScheduleFromDataSource(String taName) {
-        try {
-            String[] testArray = new String[]{
-                    "mmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-                    "tttttttttttttttttttttttttttttttt",
-                    "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
-                    "thththththththththththththththth",
-                    "ffffffffffffffffffffffffffffffff",
-                    "sasasasasasasasasasasasasasasasa",
-                    "susususususususususususususususu"};
-
-            if(count == 0){
-                dropTable();
-                createTable();
-                System.out.println("UPDATING ... ");
-                upsertSchedule("andrew_bates", testArray);
-                count++;
-            }
-
-            String[] results = selectSchedule("andrew_bates");
-            for(int i = 0; i < results.length; i++){
-                System.out.println("index: " + i + " " + results[i]);
-            }
-           // String[] newTest = selectSchedule("andrew_bates");
-           // System.out.println("Shedule returned: ");
-            //for(int i = 0; i < newTest.length; i++){
-                //System.out.println(newTest[i]);
-           // }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        String[] schedule = new String[]{"44", "33", "22"};
-        ScheduleDto scheduleDto = new ScheduleDto();
-        scheduleDto.setSchedulesByDay(schedule);
-        return scheduleDto;
+    public ScheduleDto getScheduleFromDataSource(String taName) throws URISyntaxException, SQLException {
+        return new ScheduleDto(selectSchedule(taName));
     }
 
     private Connection getDBConnection() throws URISyntaxException, SQLException {
@@ -123,30 +88,24 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     private String[] selectSchedule(final String taName) throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
         Statement statement = connection.createStatement();
-        List<String> schedule = new ArrayList<>();
+        String[] results = null;
         try {
             ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName));
             while(rs.next()){
-                schedule.add(0, rs.getString("Monday"));
-                //System.out.println("Monday: " + rs.getString("Monday"));
-                schedule.add(1, rs.getString("Tuesday"));
-                //System.out.println("Tuesday: " + rs.getString("Tuesday"));
-                schedule.add(2, rs.getString("Wednesday"));
-                //System.out.println("Wednesday: " + rs.getString("Wednesday"));
-                schedule.add(3, rs.getString("Thursday"));
-                //System.out.println("Thursday: " + rs.getString("Thursday"));
-                schedule.add(4, rs.getString("Friday"));
-                //System.out.println("Friday: " + rs.getString("Friday"));
-                schedule.add(5, rs.getString("Saturday"));
-               // System.out.println("Saturday: " + rs.getString("Saturday"));
-                schedule.add(6, rs.getString("Sunday"));
-                //System.out.println("Sunday: " + rs.getString("Sunday"));
+                results = new String[7];
+                results[0] = rs.getString("Monday");
+                results[1] = rs.getString("Tuesday");
+                results[2] = rs.getString("Wednesday");
+                results[3] = rs.getString("Thursday");
+                results[4] = rs.getString("Friday");
+                results[5] = rs.getString("Saturday");
+                results[6] = rs.getString("Sunday");
             }
         }finally {
             if (connection != null) {
                 connection.close();
             }
         }
-        return schedule.toArray(new String[7]);
+        return results;
     }
 }

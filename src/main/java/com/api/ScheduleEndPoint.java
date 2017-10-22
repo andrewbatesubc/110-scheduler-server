@@ -4,15 +4,17 @@ package com.api;
 import com.controllers.ScheduleController;
 import com.dto.ScheduleDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 
 /**
  * Endpoint that the scheduler client will hit to grab/update existing schedules, and store
  * new ones
  */
 @RestController
-//@RequestMapping("/schedule")
+@RequestMapping("/schedule")
 public class ScheduleEndPoint {
 
     private final ScheduleController scheduleController;
@@ -22,24 +24,15 @@ public class ScheduleEndPoint {
         this.scheduleController = scheduleController;
     }
 
-    @RequestMapping("/schedule")
-    public ScheduleDto getSchedule() {
-        return scheduleController.getSchedule("zsasdf");
+    @RequestMapping(method= RequestMethod.GET, value = "/getSchedule/{taName}")
+    public ScheduleDto getSchedule(@PathVariable("taName") String taName) throws URISyntaxException, SQLException {
+        return scheduleController.getSchedule(taName);
     }
 
-    /**
-     * We will treat this as idempotent. If this is the first time we have seen the schedule,
-     * we add it. If we have already seen it, we update it.
-     * @param taName
-     * @return
+    @RequestMapping(method= RequestMethod.POST, value = "/setSchedule/{taName}")
+    public void setSchedule(@PathVariable("taName") String taName,
+                            @RequestParam("scheduleDto") ScheduleDto schedule) throws URISyntaxException, SQLException {
+        scheduleController.setSchedule(taName, schedule);
+    }
 
-    @POST
-    @Path("/setSchedule/taName/{taName}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Task<Void> setSchedule(@PathParam("taName") String taName,
-                                  final ScheduleDto scheduleDto)
-    {
-        return Schedule.getActor(taName).setSchedule(taName, scheduleDto);
-    }*/
 }

@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
+
 @Component
 public class ScheduleController  {
 
@@ -21,9 +24,8 @@ public class ScheduleController  {
      * @param newSchedule
      * @return
      */
-    public void setSchedule(final String taName, final ScheduleDto newSchedule) {
-        //We reach out to the DB and store our schedule, then cache it in our state
-        scheduleDao.setScheduleInDataSource(newSchedule);
+    public void setSchedule(final String taName, final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
+        scheduleDao.setScheduleInDataSource(taName, newSchedule);
     }
 
     /**
@@ -31,7 +33,7 @@ public class ScheduleController  {
      * is empty, reach out and get it from the DB (if it exists)
      * @return
      */
-    public ScheduleDto getSchedule(final String taName) {
+    public ScheduleDto getSchedule(final String taName) throws URISyntaxException, SQLException {
         return scheduleDao.getScheduleFromDataSource(taName);
     }
 
