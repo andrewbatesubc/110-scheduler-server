@@ -87,14 +87,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         try {
             ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName));
             while(rs.next()){
-                String[] results = new String[7];
-                results[0] = rs.getString("Monday");
-                results[1] = rs.getString("Tuesday");
-                results[2] = rs.getString("Wednesday");
-                results[3] = rs.getString("Thursday");
-                results[4] = rs.getString("Friday");
-                results[5] = rs.getString("Saturday");
-                results[6] = rs.getString("Sunday");
+                String[] results = getDailyValuesFromResultSet(rs);
                 schedule.setSchedulesByDay(results);
             }
         }finally {
@@ -112,14 +105,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         try {
             ResultSet rs = statement.executeQuery(sqlStatements.selectAllSQL());
             while(rs.next()){
-                String[] results = new String[7];
-                results[0] = rs.getString("Monday");
-                results[1] = rs.getString("Tuesday");
-                results[2] = rs.getString("Wednesday");
-                results[3] = rs.getString("Thursday");
-                results[4] = rs.getString("Friday");
-                results[5] = rs.getString("Saturday");
-                results[6] = rs.getString("Sunday");
+                String[] results = getDailyValuesFromResultSet(rs);
                 schedules.add(new ScheduleDto(rs.getString("TAName"), results));
             }
         }finally {
@@ -128,5 +114,17 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             }
         }
         return schedules.toArray(new ScheduleDto[schedules.size()]);
+    }
+
+    private String[] getDailyValuesFromResultSet(final ResultSet rs) throws SQLException {
+        String[] results = new String[7];
+        results[0] = rs.getString("Monday");
+        results[1] = rs.getString("Tuesday");
+        results[2] = rs.getString("Wednesday");
+        results[3] = rs.getString("Thursday");
+        results[4] = rs.getString("Friday");
+        results[5] = rs.getString("Saturday");
+        results[6] = rs.getString("Sunday");
+        return results;
     }
 }
