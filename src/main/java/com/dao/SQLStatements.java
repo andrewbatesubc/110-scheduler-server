@@ -9,7 +9,7 @@ public class SQLStatements {
 
     public String createTableSQL() {
         return "CREATE TABLE IF NOT EXISTS " + tableName + "("
-                        + "TAName varchar(255) NOT NULL UNIQUE,"
+                        + "TAName varchar(255) UNIQUE,"
                         + "Monday varchar(255) NOT NULL,"
                         + "Tuesday varchar(255) NOT NULL,"
                         + "Wednesday varchar(255) NOT NULL,"

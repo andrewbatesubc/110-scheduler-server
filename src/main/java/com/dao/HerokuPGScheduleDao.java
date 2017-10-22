@@ -29,7 +29,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     public ScheduleDto getScheduleFromDataSource(String taName) {
         try {
             dropTable();
-            createTable();
+            //createTable();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (SQLException e) {
