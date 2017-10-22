@@ -41,9 +41,9 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                     "susususususususususususususususu"};
             upsertSchedule("andrew_bates", testArray);
             upsertSchedule("andrew_bates", testArray);
-            testArray = selectSchedule("andrew_bates");
-            for(int i = 0; i < testArray.length; i++){
-                System.out.println(testArray[i]);
+            String[] newTest = selectSchedule("andrew_bates");
+            for(int i = 0; i < newTest.length; i++){
+                System.out.println(newTest[i]);
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
