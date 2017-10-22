@@ -120,21 +120,21 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             while(rs.next()){
                // results = new String[7];
 
-                System.out.println(rs.getString(0));
+                System.out.println(rs.getString(1));
 
                // results[1] = rs.getString("Tuesday");
-                System.out.println(rs.getString(1));
-                //results[2] = rs.getString("Wednesday");
                 System.out.println(rs.getString(2));
-               // results[3] = rs.getString("Thursday");
+                //results[2] = rs.getString("Wednesday");
                 System.out.println(rs.getString(3));
-               // results[4] = rs.getString("Friday");
+               // results[3] = rs.getString("Thursday");
                 System.out.println(rs.getString(4));
-               // results[5] = rs.getString("Saturday");
+               // results[4] = rs.getString("Friday");
                 System.out.println(rs.getString(5));
-                //results[6] = rs.getString("Sunday");
+               // results[5] = rs.getString("Saturday");
                 System.out.println(rs.getString(6));
+                //results[6] = rs.getString("Sunday");
                 System.out.println(rs.getString(7));
+                System.out.println(rs.getString(8));
             }
         }finally {
             if (connection != null) {
