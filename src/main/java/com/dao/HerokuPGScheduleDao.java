@@ -134,7 +134,6 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                 System.out.println(rs.getString(6));
                 //results[6] = rs.getString("Sunday");
                 System.out.println(rs.getString(7));
-                System.out.println(rs.getString(8));
             }
         }finally {
             if (connection != null) {
