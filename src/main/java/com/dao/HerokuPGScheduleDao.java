@@ -41,6 +41,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                     "susususususususususususususususu"};
             upsertSchedule("andrew_bates", testArray);
             upsertSchedule("andrew_bates", testArray);
+            selectSchedule("andrew_bates");
            // String[] newTest = selectSchedule("andrew_bates");
            // System.out.println("Shedule returned: ");
             //for(int i = 0; i < newTest.length; i++){
@@ -94,7 +95,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     private void upsertSchedule(final String taName, final String[] schedule) throws URISyntaxException, SQLException {
-        System.out.println(sqlStatements.createUpsertSQL(taName, schedule));
+        //System.out.println(sqlStatements.createUpsertSQL(taName, schedule));
         Connection connection = getDBConnection();
         connection.setAutoCommit(false);
         PreparedStatement pstmt;
