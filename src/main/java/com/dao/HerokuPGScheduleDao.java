@@ -41,6 +41,10 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                     "susususususususususususususususu"};
             upsertSchedule("andrew_bates", testArray);
             upsertSchedule("andrew_bates", testArray);
+            testArray = selectSchedule("andrew_bates");
+            for(int i = 0; i < testArray.length; i++){
+                System.out.println(testArray[i]);
+            }
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -104,19 +108,27 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         }
     }
 
-    private void selectSchedule(final String taName) throws URISyntaxException, SQLException {
+    private String[] selectSchedule(final String taName) throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
-        connection.setAutoCommit(false);
-        PreparedStatement pstmt;
+        Statement statement = connection.createStatement();
+        String[] results = null;
         try {
-            pstmt = connection.prepareStatement(sqlStatements.createSelectSQL(taName));
-            pstmt.execute();
-            connection.commit();
-            pstmt.close();
+            ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName));
+            while(rs.next()){
+                results = new String[7];
+                results[0] = rs.getString("Monday");
+                results[1] = rs.getString("Tuesday");
+                results[2] = rs.getString("Wednesday");
+                results[3] = rs.getString("Thursday");
+                results[4] = rs.getString("Friday");
+                results[5] = rs.getString("Saturday");
+                results[6] = rs.getString("Sunday");
+            }
         }finally {
             if (connection != null) {
                 connection.close();
             }
         }
+        return results;
     }
 }
