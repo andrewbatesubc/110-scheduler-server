@@ -1,5 +1,5 @@
 # 110-scheduler-server
-Java / Postgresql  backend for the 110 scheduling system. Currently, it is developed with Heroku deployment in mind, but can be deployed anywhere with a little extension.
+Java / Postgresql  backend for the 110 scheduling system. Currently it is developed with Heroku deployment in mind, but it can be deployed anywhere with some minor extension.
 
 # To set up on a new Heroku instance:
 -Clone this repository on your local machine
