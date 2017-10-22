@@ -1,8 +1,6 @@
 package com.dao;
 
 import com.dto.ScheduleDto;
-import org.springframework.stereotype.Component;
-
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
@@ -15,5 +13,4 @@ public interface ScheduleDao {
     void setScheduleInDataSource(final ScheduleDto newSchedule) throws URISyntaxException, SQLException;
     ScheduleDto getScheduleFromDataSource(final String taName) throws URISyntaxException, SQLException;
     ScheduleDto[] getAllSchedulesFromDataSource() throws URISyntaxException, SQLException;
-
 }

@@ -1,17 +1,15 @@
 package com.api;
 
-
 import com.controllers.ScheduleController;
 import com.dto.ScheduleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 /**
  * Endpoint that the scheduler client will hit to grab/update existing schedules, and store
- * new ones
+ * new ones. Also surfaces admin endpoints to grab all schedules, delete select schedules, and delete all schedules
  */
 @RestController
 @RequestMapping("/schedule")

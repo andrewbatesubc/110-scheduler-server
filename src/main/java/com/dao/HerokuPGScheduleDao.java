@@ -4,7 +4,6 @@ import com.dto.ScheduleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
 import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,9 +17,10 @@ public class HerokuPGScheduleDao implements ScheduleDao {
 
     @Autowired
     public HerokuPGScheduleDao(@Qualifier("herokuCredentialsDao") final DataSourceCredentialsDao credentialsDao,
-                               PostgresSQLStatements storedProcedures){
+                               PostgresSQLStatements storedProcedures) throws URISyntaxException, SQLException {
         this.credentialsDao = credentialsDao;
         this.sqlStatements = storedProcedures;
+        createTableIfDoesntExist();
     }
 
     @Override
@@ -57,11 +57,12 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             }
         }
     }
-    private void createTable() throws URISyntaxException, SQLException {
+
+    public void createTableIfDoesntExist() throws URISyntaxException, SQLException {
         updateTable(sqlStatements.createTableSQL());
     }
 
-    private void dropTable() throws URISyntaxException, SQLException {
+    public void dropTable() throws URISyntaxException, SQLException {
         updateTable(sqlStatements.dropTableSQL());
     }
 
