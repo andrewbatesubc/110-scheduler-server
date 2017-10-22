@@ -29,6 +29,16 @@ public class ScheduleEndPoint {
         return scheduleController.getSchedule(taName);
     }
 
+    @RequestMapping(method= RequestMethod.DELETE, value = "/deleteSchedule/{taName}")
+    public void deleteSchedule(@PathVariable("taName") String taName) throws URISyntaxException, SQLException {
+        scheduleController.deleteTASchedule(taName);
+    }
+
+    @RequestMapping(method= RequestMethod.DELETE, value = "/getSchedule")
+    public void deleteAllSchedules() throws URISyntaxException, SQLException {
+        scheduleController.deleteAllSchedules();
+    }
+
     @RequestMapping(method= RequestMethod.POST, value = "/setSchedule")
     public void setSchedule(@RequestBody ScheduleDto schedule) throws URISyntaxException, SQLException {
         scheduleController.setSchedule(schedule);

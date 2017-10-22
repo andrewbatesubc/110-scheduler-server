@@ -36,4 +36,13 @@ public class PostgresSQLStatements {
     public String createSelectSQL(final String taName) {
         return String.format(selectSQL, taName);
     }
+
+    public String deleteAllSQL(){
+        return "DELETE * FROM " + tableName;
+    }
+
+    private String deleteTASQL = "DELETE FROM " + tableName + " WHERE TAName = '%s'";
+    public String createDeleteTASQL(final String taName){
+        return String.format(deleteTASQL, taName);
+    }
 }
