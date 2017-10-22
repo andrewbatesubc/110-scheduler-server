@@ -38,7 +38,7 @@ public class PostgresSQLStatements {
     }
 
     public String deleteAllSQL(){
-        return "DELETE * FROM " + tableName;
+        return "DELETE FROM " + tableName;
     }
 
     private String deleteTASQL = "DELETE FROM " + tableName + " WHERE TAName = '%s'";

@@ -34,7 +34,7 @@ public class ScheduleEndPoint {
         scheduleController.deleteTASchedule(taName);
     }
 
-    @RequestMapping(method= RequestMethod.DELETE, value = "/getSchedule")
+    @RequestMapping(method= RequestMethod.DELETE, value = "/deleteAllSchedules")
     public void deleteAllSchedules() throws URISyntaxException, SQLException {
         scheduleController.deleteAllSchedules();
     }
