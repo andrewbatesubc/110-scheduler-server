@@ -28,6 +28,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     @Override
     public ScheduleDto getScheduleFromDataSource(String taName) {
         try {
+            dropTable();
             createTable();
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -50,6 +51,22 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         PreparedStatement pstmt;
         try {
             pstmt = connection.prepareStatement(sqlStatements.createTableSQL());
+            pstmt.execute();
+            connection.commit();
+            pstmt.close();
+        }finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    private void dropTable() throws URISyntaxException, SQLException {
+        Connection connection = getDBConnection();
+        connection.setAutoCommit(false);
+        PreparedStatement pstmt;
+        try {
+            pstmt = connection.prepareStatement(sqlStatements.dropTableSQL());
             pstmt.execute();
             connection.commit();
             pstmt.close();
