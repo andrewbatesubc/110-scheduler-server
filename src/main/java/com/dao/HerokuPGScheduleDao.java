@@ -29,15 +29,16 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     public ScheduleDto getScheduleFromDataSource(String taName) {
         try {
             //dropTable();
+
             createTable();
             String[] testArray = new String[]{
-                    "napnapnapnapnapnapnapnappp",
-                    "napnapnapnapnapnapnapnappp",
-                    "napnapnapnapnapnapnapnappp",
-                    "napnapnapnapnapnapnapnappp",
-                    "napnapnapnapnapnapnapnappp",
-                    "napnapnapnapnapnapnapnappp",
-                    "napnapnapnapnapnapnapnappp"};
+                    "mmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+                    "tttttttttttttttttttttttttttttttt",
+                    "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+                    "thththththththththththththththth",
+                    "ffffffffffffffffffffffffffffffff",
+                    "sasasasasasasasasasasasasasasasa",
+                    "susususususususususususususususu"};
             upsertSchedule("andrew_bates", testArray);
             upsertSchedule("andrew_bates", testArray);
         } catch (URISyntaxException e) {
