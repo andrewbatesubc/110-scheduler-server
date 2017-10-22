@@ -10,6 +10,6 @@ import java.sql.SQLException;
  * Facilitates communication between the API and the persistent data source
  */
 public interface ScheduleDao {
-    void setScheduleInDataSource(final String taName, final ScheduleDto newSchedule) throws URISyntaxException, SQLException;
+    void setScheduleInDataSource(final ScheduleDto newSchedule) throws URISyntaxException, SQLException;
     ScheduleDto getScheduleFromDataSource(final String taName) throws URISyntaxException, SQLException;
 }

@@ -9,5 +9,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ScheduleDto {
+    String taName = null;
     String[] schedulesByDay = null;
 }

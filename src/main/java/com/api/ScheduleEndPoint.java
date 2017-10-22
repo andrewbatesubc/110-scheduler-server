@@ -29,10 +29,9 @@ public class ScheduleEndPoint {
         return scheduleController.getSchedule(taName);
     }
 
-    @RequestMapping(method= RequestMethod.POST, value = "/setSchedule/{taName}")
-    public void setSchedule(@PathVariable("taName") String taName,
-                            @RequestParam("scheduleDto") ScheduleDto schedule) throws URISyntaxException, SQLException {
-        scheduleController.setSchedule(taName, schedule);
+    @RequestMapping(method= RequestMethod.POST, value = "/setSchedule")
+    public void setSchedule(@RequestBody ScheduleDto schedule) throws URISyntaxException, SQLException {
+        scheduleController.setSchedule(schedule);
     }
 
 }

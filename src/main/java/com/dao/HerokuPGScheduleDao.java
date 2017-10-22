@@ -24,13 +24,13 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     @Override
-    public void setScheduleInDataSource(final String taName, final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
-        upsertSchedule(taName, newSchedule.getSchedulesByDay());
+    public void setScheduleInDataSource(final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
+        upsertSchedule(newSchedule.getTaName(), newSchedule.getSchedulesByDay());
     }
 
     @Override
     public ScheduleDto getScheduleFromDataSource(String taName) throws URISyntaxException, SQLException {
-        return new ScheduleDto(selectSchedule(taName));
+        return new ScheduleDto(taName, selectSchedule(taName));
     }
 
     private Connection getDBConnection() throws URISyntaxException, SQLException {

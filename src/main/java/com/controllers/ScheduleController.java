@@ -21,11 +21,10 @@ public class ScheduleController  {
 
     /**
      * Reach out to the DB and store the new schedule, then update the cache
-     * @param newSchedule
      * @return
      */
-    public void setSchedule(final String taName, final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
-        scheduleDao.setScheduleInDataSource(taName, newSchedule);
+    public void setSchedule(final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
+        scheduleDao.setScheduleInDataSource(newSchedule);
     }
 
     /**
