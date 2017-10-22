@@ -25,6 +25,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     public void setScheduleInDataSource(ScheduleDto newSchedule) {
     }
 
+    int count = 0;
     @Override
     public ScheduleDto getScheduleFromDataSource(String taName) {
         try {
@@ -39,8 +40,12 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                     "ffffffffffffffffffffffffffffffff",
                     "sasasasasasasasasasasasasasasasa",
                     "susususususususususususususususu"};
-            upsertSchedule("andrew_bates", testArray);
-            upsertSchedule("andrew_bates", testArray);
+            //upsertSchedule("andrew_bates", testArray);
+            if(count == 0){
+                upsertSchedule("andrew_bates", testArray);
+                count++;
+            }
+
             selectSchedule("andrew_bates");
            // String[] newTest = selectSchedule("andrew_bates");
            // System.out.println("Shedule returned: ");
