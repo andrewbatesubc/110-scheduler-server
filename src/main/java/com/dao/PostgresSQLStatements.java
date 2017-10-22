@@ -38,7 +38,7 @@ public class PostgresSQLStatements {
     }
 
     public String selectAllSQL(){
-        return "SELECT Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday FROM " + tableName;
+        return "SELECT TAName, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday FROM " + tableName;
     }
 
     public String deleteAllSQL(){
