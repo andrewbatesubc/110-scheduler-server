@@ -49,8 +49,8 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             }
 
             String[] results = selectSchedule("andrew_bates");
-            for(String s : results){
-                System.out.println(s);
+            for(int i = 0; i < results.length; i++){
+                System.out.println("index: " + i + " " + results[i]);
             }
            // String[] newTest = selectSchedule("andrew_bates");
            // System.out.println("Shedule returned: ");
