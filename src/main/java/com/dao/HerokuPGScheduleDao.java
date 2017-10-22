@@ -41,11 +41,11 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                     "susususususususususususususususu"};
             upsertSchedule("andrew_bates", testArray);
             upsertSchedule("andrew_bates", testArray);
-            String[] newTest = selectSchedule("andrew_bates");
+           // String[] newTest = selectSchedule("andrew_bates");
            // System.out.println("Shedule returned: ");
-            for(int i = 0; i < newTest.length; i++){
+            //for(int i = 0; i < newTest.length; i++){
                 //System.out.println(newTest[i]);
-            }
+           // }
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (SQLException e) {
