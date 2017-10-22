@@ -24,9 +24,9 @@ public class PostgresSQLStatements {
         return "DROP TABLE IF EXISTS " + tableName;
     }
 
-    private String upsertSQL = "INSERT INTO " + tableName + "(taName, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday) " +
+    private String upsertSQL = "INSERT INTO " + tableName + "(TAName, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday) " +
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s) " +
-            "ON CONFLICT (taName) DO UPDATE SET Monday = %s, Tuesday = %s, Wednesday = %s, Thursday = %s, Friday = %s, Saturday = %s, Sunday = %s";
+            "ON CONFLICT (TAName) DO UPDATE SET Monday = %s, Tuesday = %s, Wednesday = %s, Thursday = %s, Friday = %s, Saturday = %s, Sunday = %s";
     public String createUpsertSQL(final String taName, final String[] daysOfWeek) {
         return String.format(upsertSQL, taName, daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6],
                 daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6]);
