@@ -46,6 +46,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
 
     private void createTable() throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
+        connection.setAutoCommit(false);
         PreparedStatement pstmt;
         try {
             pstmt = connection.prepareStatement(sqlStatements.createTableSQL());
