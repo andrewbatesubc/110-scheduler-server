@@ -15,11 +15,11 @@ import java.sql.Statement;
 public class HerokuPGScheduleDao implements ScheduleDao {
 
     private final DataSourceCredentialsDao credentialsDao;
-    private final SQLStoredProcedures storedProcedures;
+    private final SQLStatements storedProcedures;
 
     @Autowired
     public HerokuPGScheduleDao(@Qualifier("herokuCredentialsDao") final DataSourceCredentialsDao credentialsDao,
-                               SQLStoredProcedures storedProcedures){
+                               SQLStatements storedProcedures){
         this.credentialsDao = credentialsDao;
         this.storedProcedures = storedProcedures;
     }
