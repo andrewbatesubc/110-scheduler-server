@@ -15,7 +15,7 @@ public class SQLStoredProcedures {
         return "CREATE PROCEDURE " + createTableProcedureName + " "
                         + "AS "
                         + "BEGIN "
-                        + "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+                        + "CREATE TABLE IF NOT EXISTS " + tableName + "("
                         + "TAName varchar(255) NOT NULL,"
                         + "Monday varchar(255) NOT NULL,"
                         + "Tuesday varchar(255) NOT NULL,"
