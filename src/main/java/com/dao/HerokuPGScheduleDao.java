@@ -42,9 +42,9 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             upsertSchedule("andrew_bates", testArray);
             upsertSchedule("andrew_bates", testArray);
             String[] newTest = selectSchedule("andrew_bates");
-            System.out.println("Shedule returned: ");
+           // System.out.println("Shedule returned: ");
             for(int i = 0; i < newTest.length; i++){
-                System.out.println(newTest[i]);
+                //System.out.println(newTest[i]);
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -118,12 +118,19 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             while(rs.next()){
                 results = new String[7];
                 results[0] = rs.getString("Monday");
+                System.out.println(results[0]);
                 results[1] = rs.getString("Tuesday");
+                System.out.println(results[1]);
                 results[2] = rs.getString("Wednesday");
+                System.out.println(results[2]);
                 results[3] = rs.getString("Thursday");
+                System.out.println(results[3]);
                 results[4] = rs.getString("Friday");
+                System.out.println(results[4]);
                 results[5] = rs.getString("Saturday");
+                System.out.println(results[5]);
                 results[6] = rs.getString("Sunday");
+                System.out.println(results[6]);
             }
         }finally {
             if (connection != null) {
