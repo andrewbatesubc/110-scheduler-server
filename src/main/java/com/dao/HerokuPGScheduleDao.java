@@ -49,9 +49,9 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             }
 
             String[] results = selectSchedule("andrew_bates");
-            for(String s : results){
-                System.out.println(s);
-            }
+            //for(String s : results){
+            //    System.out.println(s);
+           // }
            // String[] newTest = selectSchedule("andrew_bates");
            // System.out.println("Shedule returned: ");
             //for(int i = 0; i < newTest.length; i++){
@@ -128,12 +128,19 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName));
             while(rs.next()){
                 schedule.add(rs.getString("Monday"));
+                System.out.println("Monday: " + rs.getString("Monday"));
                 schedule.add(rs.getString("Tuesday"));
+                System.out.println("Tuesday: " + rs.getString("Tuesday"));
                 schedule.add(rs.getString("Wednesday"));
+                System.out.println("Wednesday: " + rs.getString("Wednesday"));
                 schedule.add(rs.getString("Thursday"));
+                System.out.println("Thursday: " + rs.getString("Thursday"));
                 schedule.add(rs.getString("Friday"));
+                System.out.println("Friday: " + rs.getString("Friday"));
                 schedule.add(rs.getString("Saturday"));
+                System.out.println("Saturday: " + rs.getString("Saturday"));
                 schedule.add(rs.getString("Sunday"));
+                System.out.println("Sunday: " + rs.getString("Sunday"));
             }
         }finally {
             if (connection != null) {
