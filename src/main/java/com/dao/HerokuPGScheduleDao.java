@@ -28,8 +28,8 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     @Override
     public ScheduleDto getScheduleFromDataSource(String taName) {
         try {
-            dropTable();
-            //createTable();
+            //dropTable();
+            createTable();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (SQLException e) {
