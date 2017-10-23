@@ -9,6 +9,7 @@ import java.sql.SQLException;
  */
 public interface ScheduleDao {
     void deleteTASchedule(final String taName) throws URISyntaxException, SQLException;
+    void deleteTAScheduleType(final String scheduleType) throws URISyntaxException, SQLException;
     void deleteAllSchedules() throws URISyntaxException, SQLException;
     void setScheduleInDataSource(final ScheduleDto newSchedule) throws URISyntaxException, SQLException;
     void setScheduleTypeInDataSource(final String newScheduleType) throws URISyntaxException, SQLException;

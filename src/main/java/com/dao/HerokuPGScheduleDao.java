@@ -31,7 +31,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
 
     @Override
     public void setScheduleTypeInDataSource(final String newScheduleType) throws URISyntaxException, SQLException {
-        updateTable(sqlStatements.createInsertScheduleTypeSQL(newScheduleType));
+        updateTable(sqlStatements.createInsertScheduleTypeSQL(newScheduleType.trim().toLowerCase()));
     }
 
     @Override
@@ -107,8 +107,13 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     @Override
-    public void deleteTASchedule(String taName) throws URISyntaxException, SQLException {
-        updateTable(sqlStatements.createDeleteTASQL(taName.trim()));
+    public void deleteTAScheduleType(final String scheduleType) throws URISyntaxException, SQLException {
+        updateTable(sqlStatements.createDeleteScheduleTypeSQL(scheduleType.trim().toLowerCase()));
+    }
+
+    @Override
+    public void deleteTASchedule(final String taName) throws URISyntaxException, SQLException {
+        updateTable(sqlStatements.createDeleteTASQL(taName.trim().toLowerCase()));
     }
 
     @Override
