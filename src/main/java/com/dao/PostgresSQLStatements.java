@@ -74,6 +74,11 @@ public class PostgresSQLStatements {
         return String.format(deleteTASQL, taName);
     }
 
+    private String deleteScheduleByTypeSQL = "DELETE FROM " + scheduleTableName + " WHERE ScheduleType = '%s'";
+    public String createDeleteScheduleByTypeSQL(final String scheduleType){
+        return String.format(deleteScheduleByTypeSQL, scheduleType);
+    }
+
     private String deleteScheduleTypeSQL = "DELETE FROM " + scheduleTypesTableName + " WHERE ScheduleType = '%s'";
     public String createDeleteScheduleTypeSQL(final String scheduleType){
         return String.format(deleteScheduleTypeSQL, scheduleType);

@@ -108,6 +108,8 @@ public class HerokuPGScheduleDao implements ScheduleDao {
 
     @Override
     public void deleteTAScheduleType(final String scheduleType) throws URISyntaxException, SQLException {
+        //We need to delete all schedules that contain this type to avoid data consistency issues.
+        updateTable(sqlStatements.createDeleteScheduleByTypeSQL(scheduleType.trim().toLowerCase()));
         updateTable(sqlStatements.createDeleteScheduleTypeSQL(scheduleType.trim().toLowerCase()));
     }
 
