@@ -22,10 +22,18 @@ public class ScheduleEndPoint {
         this.scheduleController = scheduleController;
     }
 
+    // These are TA-facing APIs
     @RequestMapping(method= RequestMethod.GET, value = "/getSchedule/{taName}")
     public ScheduleDto getSchedule(@PathVariable("taName") String taName) throws URISyntaxException, SQLException {
         return scheduleController.getSchedule(taName);
     }
+
+    @RequestMapping(method= RequestMethod.POST, value = "/setSchedule")
+    public void setSchedule(@RequestBody ScheduleDto schedule) throws URISyntaxException, SQLException {
+        scheduleController.setSchedule(schedule);
+    }
+
+    // These are admin-only APIs. These will be surfaced to the course coordinator
     @RequestMapping(method= RequestMethod.GET, value = "/getAllSchedules")
     public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
         return scheduleController.getAllSchedules();
@@ -41,9 +49,6 @@ public class ScheduleEndPoint {
         scheduleController.deleteAllSchedules();
     }
 
-    @RequestMapping(method= RequestMethod.POST, value = "/setSchedule")
-    public void setSchedule(@RequestBody ScheduleDto schedule) throws URISyntaxException, SQLException {
-        scheduleController.setSchedule(schedule);
-    }
+
 
 }
