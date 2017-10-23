@@ -23,9 +23,15 @@ public class ScheduleEndPoint {
     }
 
     // These are TA-facing APIs
-    @RequestMapping(method= RequestMethod.GET, value = "/getSchedule/{taName}")
-    public ScheduleDto getSchedule(@PathVariable("taName") String taName) throws URISyntaxException, SQLException {
-        return scheduleController.getSchedule(taName);
+    @RequestMapping(method= RequestMethod.GET, value = "/getSchedule/{taName}/{scheduleType}")
+    public ScheduleDto getSchedule(@PathVariable("taName") String taName,
+                                   @PathVariable("scheduleType") String scheduleType) throws URISyntaxException, SQLException {
+        return scheduleController.getSchedule(taName, scheduleType);
+    }
+
+    @RequestMapping(method= RequestMethod.GET, value = "/getScheduleTypes")
+    public String[] getScheduleTypes() throws URISyntaxException, SQLException {
+        return scheduleController.getScheduleTypes();
     }
 
     @RequestMapping(method= RequestMethod.POST, value = "/setSchedule")

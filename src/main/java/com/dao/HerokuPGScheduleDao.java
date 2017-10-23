@@ -20,17 +20,50 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                                PostgresSQLStatements storedProcedures) throws URISyntaxException, SQLException {
         this.credentialsDao = credentialsDao;
         this.sqlStatements = storedProcedures;
-        createTableIfDoesntExist();
+        dropTables();
+        createTablesIfDoesntExist();
     }
 
     @Override
     public void setScheduleInDataSource(final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
-        upsertSchedule(newSchedule.getTaName(), newSchedule.getSchedulesByDay());
+        updateTable(sqlStatements.createUpsertSQL(newSchedule.getTaName(), newSchedule.getScheduleType(), newSchedule.getSchedulesByDay()));
     }
 
     @Override
-    public ScheduleDto getScheduleFromDataSource(String taName) throws URISyntaxException, SQLException {
-        return selectSchedule(taName);
+    public ScheduleDto getScheduleFromDataSource(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
+        Connection connection = getDBConnection();
+        Statement statement = connection.createStatement();
+        ScheduleDto schedule = new ScheduleDto(taName, scheduleType, null);
+        try {
+            ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName, scheduleType));
+            while(rs.next()){
+                String[] results = getDailyValuesFromResultSet(rs);
+                schedule.setSchedulesByDay(results);
+            }
+        }finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return schedule;
+    }
+
+    @Override
+    public String[] getScheduleTypesFromDataSource() throws URISyntaxException, SQLException {
+        Connection connection = getDBConnection();
+        Statement statement = connection.createStatement();
+        List<String> scheduleTypes = new ArrayList<>();
+        try {
+            ResultSet rs = statement.executeQuery(sqlStatements.selectAllScheduleTypesSQL());
+            while(rs.next()){
+                scheduleTypes.add(rs.getString("ScheduleType"));
+            }
+        }finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return scheduleTypes.toArray(new String[scheduleTypes.size()]);
     }
 
     @Override
@@ -58,16 +91,14 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         }
     }
 
-    public void createTableIfDoesntExist() throws URISyntaxException, SQLException {
-        updateTable(sqlStatements.createTableSQL());
+    public void createTablesIfDoesntExist() throws URISyntaxException, SQLException {
+        updateTable(sqlStatements.createScheduleTypesTableSQL());
+        updateTable(sqlStatements.createScheduleTableSQL());
     }
 
-    public void dropTable() throws URISyntaxException, SQLException {
-        updateTable(sqlStatements.dropTableSQL());
-    }
-
-    private void upsertSchedule(final String taName, final String[] schedule) throws URISyntaxException, SQLException {
-        updateTable(sqlStatements.createUpsertSQL(taName, schedule));
+    public void dropTables() throws URISyntaxException, SQLException {
+        updateTable(sqlStatements.dropScheduleTableSQL());
+        updateTable(sqlStatements.dropScheduleTypeTableSQL());
     }
 
     @Override
@@ -80,24 +111,6 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         updateTable(sqlStatements.deleteAllSQL());
     }
 
-    private ScheduleDto selectSchedule(final String taName) throws URISyntaxException, SQLException {
-        Connection connection = getDBConnection();
-        Statement statement = connection.createStatement();
-        ScheduleDto schedule = new ScheduleDto(taName, null);
-        try {
-            ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName));
-            while(rs.next()){
-                String[] results = getDailyValuesFromResultSet(rs);
-                schedule.setSchedulesByDay(results);
-            }
-        }finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
-        return schedule;
-    }
-
     private ScheduleDto[] selectAllSchedules() throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
         Statement statement = connection.createStatement();
@@ -106,7 +119,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
             ResultSet rs = statement.executeQuery(sqlStatements.selectAllSQL());
             while(rs.next()){
                 String[] results = getDailyValuesFromResultSet(rs);
-                schedules.add(new ScheduleDto(rs.getString("TAName"), results));
+                schedules.add(new ScheduleDto(rs.getString("TAName"), rs.getString("ScheduleType"), results));
             }
         }finally {
             if (connection != null) {

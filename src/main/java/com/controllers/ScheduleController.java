@@ -22,8 +22,12 @@ public class ScheduleController  {
         scheduleDao.setScheduleInDataSource(newSchedule);
     }
 
-    public ScheduleDto getSchedule(final String taName) throws URISyntaxException, SQLException {
-        return scheduleDao.getScheduleFromDataSource(taName);
+    public ScheduleDto getSchedule(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
+        return scheduleDao.getScheduleFromDataSource(taName, scheduleType);
+    }
+
+    public String[] getScheduleTypes() throws URISyntaxException, SQLException {
+        return scheduleDao.getScheduleTypesFromDataSource();
     }
 
     public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
