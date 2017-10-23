@@ -39,6 +39,11 @@ public class ScheduleEndPoint {
         scheduleController.setSchedule(schedule);
     }
 
+    @RequestMapping(method= RequestMethod.POST, value = "/setScheduleType/{scheduleType}")
+    public void setSchedule(@PathVariable("scheduleType") String scheduleType) throws URISyntaxException, SQLException {
+        scheduleController.setScheduleType(scheduleType);
+    }
+
     // These are admin-only APIs. These will be surfaced to the course coordinator
     @RequestMapping(method= RequestMethod.GET, value = "/getAllSchedules")
     public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
