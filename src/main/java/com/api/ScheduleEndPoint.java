@@ -40,7 +40,7 @@ public class ScheduleEndPoint {
     }
 
     // These are admin-only APIs. These will be surfaced to the course coordinator
-    
+
     @RequestMapping(method= RequestMethod.GET, value = "/getAllSchedules")
     public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
         return scheduleController.getAllSchedules();
