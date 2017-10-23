@@ -20,9 +20,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                                PostgresSQLStatements storedProcedures) throws URISyntaxException, SQLException {
         this.credentialsDao = credentialsDao;
         this.sqlStatements = storedProcedures;
-        //createTablesIfDoesntExist();
-        //This will usually fail, but we want at least one type in the DB no matter what
-        //setScheduleTypeInDataSource("regular");
+        createTablesIfDoesntExist();
     }
 
     @Override
