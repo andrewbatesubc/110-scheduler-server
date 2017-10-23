@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.dto.ScheduleDto;
+import com.dto.ScheduleTypesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -54,7 +55,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     @Override
-    public String[] getScheduleTypesFromDataSource() throws URISyntaxException, SQLException {
+    public ScheduleTypesDto getScheduleTypesFromDataSource() throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
         Statement statement = connection.createStatement();
         List<String> scheduleTypes = new ArrayList<>();
@@ -68,7 +69,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
                 connection.close();
             }
         }
-        return scheduleTypes.toArray(new String[scheduleTypes.size()]);
+        return new ScheduleTypesDto(scheduleTypes.toArray(new String[scheduleTypes.size()]));
     }
 
     @Override

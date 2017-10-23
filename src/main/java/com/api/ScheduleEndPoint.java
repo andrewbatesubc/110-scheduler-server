@@ -2,6 +2,7 @@ package com.api;
 
 import com.controllers.ScheduleController;
 import com.dto.ScheduleDto;
+import com.dto.ScheduleTypesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
@@ -30,7 +31,7 @@ public class ScheduleEndPoint {
     }
 
     @RequestMapping(method= RequestMethod.GET, value = "/getScheduleTypes")
-    public String[] getScheduleTypes() throws URISyntaxException, SQLException {
+    public ScheduleTypesDto getScheduleTypes() throws URISyntaxException, SQLException {
         return scheduleController.getScheduleTypes();
     }
 

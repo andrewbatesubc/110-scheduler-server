@@ -2,6 +2,7 @@ package com.controllers;
 
 import com.dao.ScheduleDao;
 import com.dto.ScheduleDto;
+import com.dto.ScheduleTypesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class ScheduleController  {
         return scheduleDao.getScheduleFromDataSource(taName, scheduleType);
     }
 
-    public String[] getScheduleTypes() throws URISyntaxException, SQLException {
+    public ScheduleTypesDto getScheduleTypes() throws URISyntaxException, SQLException {
         return scheduleDao.getScheduleTypesFromDataSource();
     }
 
