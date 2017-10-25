@@ -2,6 +2,7 @@ package com.api;
 
 import com.controllers.ScheduleController;
 import com.dto.ScheduleDto;
+import com.dto.ScheduleListDto;
 import com.dto.ScheduleTypesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,10 +42,9 @@ public class ScheduleEndPoint {
     }
 
     // These are admin-only APIs. These will be surfaced to the course coordinator
-
     @RequestMapping(method= RequestMethod.GET, value = "/getAllSchedules")
-    public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
-        return scheduleController.getAllSchedules();
+    public ScheduleListDto getAllSchedules() throws URISyntaxException, SQLException {
+        return new ScheduleListDto(scheduleController.getAllSchedules());
     }
 
     @RequestMapping(method= RequestMethod.POST, value = "/setScheduleType/{scheduleType}")
