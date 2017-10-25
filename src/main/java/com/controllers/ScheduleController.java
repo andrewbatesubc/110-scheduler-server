@@ -39,8 +39,8 @@ public class ScheduleController  {
         return scheduleDao.getAllSchedulesFromDataSource();
     }
 
-    public void deleteTASchedule(final String taName) throws URISyntaxException, SQLException {
-        scheduleDao.deleteTASchedule(taName);
+    public void deleteTASchedule(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
+        scheduleDao.deleteTASchedule(taName, scheduleType);
     }
 
     public void deleteTAScheduleType(final String scheduleType) throws URISyntaxException, SQLException {

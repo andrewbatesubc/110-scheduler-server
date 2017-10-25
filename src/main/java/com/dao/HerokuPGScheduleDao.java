@@ -115,8 +115,8 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     @Override
-    public void deleteTASchedule(final String taName) throws URISyntaxException, SQLException {
-        updateTable(sqlStatements.createDeleteTASQL(taName.trim().toLowerCase()));
+    public void deleteTASchedule(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
+        updateTable(sqlStatements.createDeleteTASQL(taName.trim().toLowerCase(), scheduleType.trim().toLowerCase()));
     }
 
     @Override
