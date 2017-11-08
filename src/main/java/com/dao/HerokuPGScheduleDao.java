@@ -1,14 +1,10 @@
 package com.dao;
-
 import com.dto.ScheduleDto;
-import com.dto.ScheduleTypesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component("sqlScheduleDao")
 public class HerokuPGScheduleDao implements ScheduleDao {
@@ -36,65 +32,36 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     }
 
     @Override
-    public ScheduleDto getScheduleFromDataSource(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
+    public ResultSet getScheduleFromDataSource(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
+        return executeGetQuery(sqlStatements.createSelectSQL(taName, scheduleType));
+    }
+
+    @Override
+    public ResultSet getScheduleTypesFromDataSource() throws URISyntaxException, SQLException {
+        return executeGetQuery(sqlStatements.selectAllScheduleTypesSQL());
+    }
+
+    @Override
+    public ResultSet getAllSchedulesFromDataSource() throws URISyntaxException, SQLException {
+        return executeGetQuery(sqlStatements.selectAllSQL());
+    }
+
+    private ResultSet executeGetQuery(final String sql) throws URISyntaxException, SQLException{
         Connection connection = getDBConnection();
         Statement statement = connection.createStatement();
-        ScheduleDto schedule = new ScheduleDto(taName, scheduleType, null);
+        ResultSet rs = null;
         try {
-            ResultSet rs = statement.executeQuery(sqlStatements.createSelectSQL(taName, scheduleType));
-            while(rs.next()){
-                String[] results = getDailyValuesFromResultSet(rs);
-                schedule.setSchedulesByDay(results);
-            }
+            rs = statement.executeQuery(sql);
         }finally {
             if (connection != null) {
                 connection.close();
             }
         }
-        return schedule;
-    }
-
-    @Override
-    public ScheduleTypesDto getScheduleTypesFromDataSource() throws URISyntaxException, SQLException {
-        Connection connection = getDBConnection();
-        Statement statement = connection.createStatement();
-        List<String> scheduleTypes = new ArrayList<>();
-        try {
-            ResultSet rs = statement.executeQuery(sqlStatements.selectAllScheduleTypesSQL());
-            while(rs.next()){
-                scheduleTypes.add(rs.getString("ScheduleType"));
-            }
-        }finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
-        return new ScheduleTypesDto(scheduleTypes.toArray(new String[scheduleTypes.size()]));
-    }
-
-    @Override
-    public ScheduleDto[] getAllSchedulesFromDataSource() throws URISyntaxException, SQLException {
-        return selectAllSchedules();
+        return rs;
     }
 
     private Connection getDBConnection() throws URISyntaxException, SQLException {
         return DriverManager.getConnection(credentialsDao.getDBConnectionURL());
-    }
-
-    private void updateTable(final String sqlString) throws URISyntaxException, SQLException {
-        Connection connection = getDBConnection();
-        connection.setAutoCommit(false);
-        PreparedStatement pstmt;
-        try {
-            pstmt = connection.prepareStatement(sqlString);
-            pstmt.execute();
-            connection.commit();
-            pstmt.close();
-        }finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
     }
 
     public void createTablesIfDoesntExist() throws URISyntaxException, SQLException {
@@ -124,33 +91,21 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         updateTable(sqlStatements.deleteAllSQL());
     }
 
-    private ScheduleDto[] selectAllSchedules() throws URISyntaxException, SQLException {
+
+    private void updateTable(final String sqlString) throws URISyntaxException, SQLException {
         Connection connection = getDBConnection();
-        Statement statement = connection.createStatement();
-        List<ScheduleDto> schedules = new ArrayList<>();
+        connection.setAutoCommit(false);
+        PreparedStatement pstmt;
         try {
-            ResultSet rs = statement.executeQuery(sqlStatements.selectAllSQL());
-            while(rs.next()){
-                String[] results = getDailyValuesFromResultSet(rs);
-                schedules.add(new ScheduleDto(rs.getString("TAName"), rs.getString("ScheduleType"), results));
-            }
+            pstmt = connection.prepareStatement(sqlString);
+            pstmt.execute();
+            connection.commit();
+            pstmt.close();
         }finally {
             if (connection != null) {
                 connection.close();
             }
         }
-        return schedules.toArray(new ScheduleDto[schedules.size()]);
     }
 
-    private String[] getDailyValuesFromResultSet(final ResultSet rs) throws SQLException {
-        String[] results = new String[7];
-        results[0] = rs.getString("Monday");
-        results[1] = rs.getString("Tuesday");
-        results[2] = rs.getString("Wednesday");
-        results[3] = rs.getString("Thursday");
-        results[4] = rs.getString("Friday");
-        results[5] = rs.getString("Saturday");
-        results[6] = rs.getString("Sunday");
-        return results;
-    }
 }

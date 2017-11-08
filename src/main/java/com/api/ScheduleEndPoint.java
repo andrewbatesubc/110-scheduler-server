@@ -17,13 +17,13 @@ import java.sql.SQLException;
 @RequestMapping("/schedule")
 public class ScheduleEndPoint {
 
+
     private final ScheduleController scheduleController;
 
     @Autowired
     public ScheduleEndPoint(final ScheduleController scheduleController){
         this.scheduleController = scheduleController;
     }
-
     // These are TA-facing APIs
     @RequestMapping(method= RequestMethod.GET, value = "/getSchedule/{taName}/{scheduleType}")
     public ScheduleDto getSchedule(@PathVariable("taName") String taName,

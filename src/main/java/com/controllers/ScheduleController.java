@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ScheduleController  {
@@ -27,18 +30,6 @@ public class ScheduleController  {
         scheduleDao.setScheduleTypeInDataSource(newScheduleType);
     }
 
-    public ScheduleDto getSchedule(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
-        return scheduleDao.getScheduleFromDataSource(taName, scheduleType);
-    }
-
-    public ScheduleTypesDto getScheduleTypes() throws URISyntaxException, SQLException {
-        return scheduleDao.getScheduleTypesFromDataSource();
-    }
-
-    public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
-        return scheduleDao.getAllSchedulesFromDataSource();
-    }
-
     public void deleteTASchedule(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
         scheduleDao.deleteTASchedule(taName, scheduleType);
     }
@@ -51,5 +42,46 @@ public class ScheduleController  {
         scheduleDao.deleteAllSchedules();
     }
 
+    public ScheduleDto getSchedule(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
+        ResultSet rs = scheduleDao.getScheduleFromDataSource(taName, scheduleType);
+        ScheduleDto schedule = new ScheduleDto(taName, scheduleType, null);
+        if(rs != null){
+            while(rs.next()){
+                String[] results = getDailyValuesFromResultSet(rs);
+                schedule.setSchedulesByDay(results);
+            }
+        }
+        return schedule;
+    }
 
+    public ScheduleTypesDto getScheduleTypes() throws URISyntaxException, SQLException {
+        ResultSet rs = scheduleDao.getScheduleTypesFromDataSource();
+        List<String> scheduleTypes = new ArrayList<>();
+        while(rs.next()){
+            scheduleTypes.add(rs.getString("ScheduleType"));
+        }
+        return new ScheduleTypesDto(scheduleTypes.toArray(new String[scheduleTypes.size()]));
+    }
+
+    public ScheduleDto[] getAllSchedules() throws URISyntaxException, SQLException {
+        List<ScheduleDto> schedules = new ArrayList<>();
+        ResultSet rs = scheduleDao.getAllSchedulesFromDataSource();
+        while(rs.next()){
+            String[] results = getDailyValuesFromResultSet(rs);
+            schedules.add(new ScheduleDto(rs.getString("TAName"), rs.getString("ScheduleType"), results));
+        }
+        return schedules.toArray(new ScheduleDto[schedules.size()]);
+    }
+
+    private String[] getDailyValuesFromResultSet(final ResultSet rs) throws SQLException {
+        String[] results = new String[7];
+        results[0] = rs.getString("Monday");
+        results[1] = rs.getString("Tuesday");
+        results[2] = rs.getString("Wednesday");
+        results[3] = rs.getString("Thursday");
+        results[4] = rs.getString("Friday");
+        results[5] = rs.getString("Saturday");
+        results[6] = rs.getString("Sunday");
+        return results;
+    }
 }
