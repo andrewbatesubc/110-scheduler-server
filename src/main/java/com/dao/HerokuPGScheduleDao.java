@@ -18,7 +18,7 @@ public class HerokuPGScheduleDao implements ScheduleDao {
         this.credentialsDao = credentialsDao;
         this.sqlStatements = storedProcedures;
         dropTables();
-        createTablesIfDoesntExist();
+        //createTablesIfDoesntExist();
     }
 
     @Override
