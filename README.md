@@ -40,6 +40,7 @@ Heroku is deployed with the following credentials:
 
 
 user: cpsc110availability@gmail.com
+
 pass: cpsc110admin
 
 
