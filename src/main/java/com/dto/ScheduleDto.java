@@ -11,5 +11,6 @@ import lombok.Data;
 public class ScheduleDto {
     String taName = null;
     String scheduleType = null;
+    String date = null;
     String[] schedulesByDay = null;
 }

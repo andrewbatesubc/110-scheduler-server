@@ -19,6 +19,7 @@ public class PostgresSQLStatements {
                         + "Friday varchar(255) NOT NULL,"
                         + "Saturday varchar(255) NOT NULL,"
                         + "Sunday varchar(255) NOT NULL,"
+                        + "Date varchar(255) NOT NULL,"
                         + "PRIMARY KEY (TAName, ScheduleType))";
     }
 
@@ -35,9 +36,10 @@ public class PostgresSQLStatements {
         return "DROP TABLE IF EXISTS " + scheduleTypesTableName;
     }
 
-    private String upsertScheduleSQL = "INSERT INTO " + scheduleTableName + "(TAName, ScheduleType, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday) " +
-            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') " +
-            "ON CONFLICT (TAName, ScheduleType) DO UPDATE SET Monday = '%s', Tuesday = '%s', Wednesday = '%s', Thursday = '%s', Friday = '%s', Saturday = '%s', Sunday = '%s'";
+    private String upsertScheduleSQL = "INSERT INTO " + scheduleTableName + "(TAName, ScheduleType, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, Date) " +
+            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', NOW()) " +
+            "ON CONFLICT (TAName, ScheduleType) DO UPDATE SET Monday = '%s', Tuesday = '%s', " +
+            "Wednesday = '%s', Thursday = '%s', Friday = '%s', Saturday = '%s', Sunday = '%s', Date = NOW()";
     public String createUpsertScheduleSQL(final String taName, final String scheduleType, final String[] daysOfWeek) {
         return String.format(upsertScheduleSQL, taName, scheduleType, daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6],
                 daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6]);
@@ -50,7 +52,7 @@ public class PostgresSQLStatements {
         return String.format(insertScheduleTypeSQL, scheduleType);
     }
 
-    private String selectSQL = "SELECT Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday FROM " + scheduleTableName +
+    private String selectSQL = "SELECT Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, Date FROM " + scheduleTableName +
             " WHERE TAName = '%s' " +
             " AND ScheduleType = '%s'";
     public String createSelectSQL(final String taName, final String scheduleType) {
@@ -58,7 +60,7 @@ public class PostgresSQLStatements {
     }
 
     public String selectAllSQL(){
-        return "SELECT TAName, ScheduleType, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday FROM " + scheduleTableName;
+        return "SELECT TAName, ScheduleType, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, Date FROM " + scheduleTableName;
     }
 
     public String selectAllScheduleTypesSQL(){

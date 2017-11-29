@@ -44,11 +44,12 @@ public class ScheduleController  {
 
     public ScheduleDto getSchedule(final String taName, final String scheduleType) throws URISyntaxException, SQLException {
         ResultSet rs = scheduleDao.getScheduleFromDataSource(taName, scheduleType);
-        ScheduleDto schedule = new ScheduleDto(taName, scheduleType, null);
+        ScheduleDto schedule = new ScheduleDto(taName, scheduleType, null, null);
         if(rs != null){
             while(rs.next()){
                 String[] results = getDailyValuesFromResultSet(rs);
                 schedule.setSchedulesByDay(results);
+                schedule.setDate(rs.getString("Date"));
             }
         }
         return schedule;
@@ -68,7 +69,10 @@ public class ScheduleController  {
         ResultSet rs = scheduleDao.getAllSchedulesFromDataSource();
         while(rs.next()){
             String[] results = getDailyValuesFromResultSet(rs);
-            schedules.add(new ScheduleDto(rs.getString("TAName"), rs.getString("ScheduleType"), results));
+            schedules.add(new ScheduleDto(rs.getString("TAName"),
+                    rs.getString("ScheduleType"),
+                    rs.getString("Date"),
+                    results));
         }
         return schedules.toArray(new ScheduleDto[schedules.size()]);
     }
