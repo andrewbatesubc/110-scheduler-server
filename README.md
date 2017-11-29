@@ -19,6 +19,18 @@ Java / Postgresql  backend for the 110 scheduling system. Currently it is develo
     Make note of the value of the 'Web URL:' field. This will be the value you will put in the scheduler client's config file
 
 
+# To make changes and push them to an existing Heroku instance
+1) Clone this repository on your local machine
+
+2) Install the Heroku CLI, and then type 'heroku login' and input the credentials at the bottom of the screen
+
+3) Once finished, run this command in the Heroku CLI to create a Postgres database to store our schedules
+
+    *git remote add heroku XXXX*
+    
+    Where XXX is the Heroku Git URL under the Settings tab of the online Heroku dashboard (use the credentials at the bottom of this page to login to heroku)
+
+Now you are free to make changes locally and push them using "git push heroku master"
 
 
 
