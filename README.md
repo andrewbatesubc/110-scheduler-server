@@ -20,3 +20,11 @@ Java / Postgresql  backend for the 110 scheduling system. Currently it is develo
 
 
 
+
+
+NOTE:
+
+Heroku is deployed with the following credentials:
+
+cpsc110availability@gmail.com
+pass: cpsc110admin
