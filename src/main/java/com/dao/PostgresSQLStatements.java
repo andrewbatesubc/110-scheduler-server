@@ -36,13 +36,13 @@ public class PostgresSQLStatements {
         return "DROP TABLE IF EXISTS " + scheduleTypesTableName;
     }
 
-    private String upsertScheduleSQL = "INSERT INTO " + scheduleTableName + "(TAName, ScheduleType, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, Date) " +
-            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', NOW()) " +
-            "ON CONFLICT (TAName, ScheduleType) DO UPDATE SET Monday = '%s', Tuesday = '%s', " +
-            "Wednesday = '%s', Thursday = '%s', Friday = '%s', Saturday = '%s', Sunday = '%s', Date = NOW()";
-    public String createUpsertScheduleSQL(final String taName, final String scheduleType, final String[] daysOfWeek) {
-        return String.format(upsertScheduleSQL, taName, scheduleType, daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6],
-                daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6]);
+    private String upsertScheduleSQL = "INSERT INTO " + scheduleTableName + "(TAName, ScheduleType, Date, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday) " +
+            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') " +
+            "ON CONFLICT (TAName, ScheduleType) DO UPDATE SET Date = '%s', Monday = '%s', Tuesday = '%s', " +
+            "Wednesday = '%s', Thursday = '%s', Friday = '%s', Saturday = '%s', Sunday = '%s'";
+    public String createUpsertScheduleSQL(final String taName, final String scheduleType, final String date, final String[] daysOfWeek) {
+        return String.format(upsertScheduleSQL, taName, scheduleType, date, daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6],
+                date, daysOfWeek[0], daysOfWeek[1], daysOfWeek[2], daysOfWeek[3], daysOfWeek[4], daysOfWeek[5], daysOfWeek[6]);
     }
 
     private String insertScheduleTypeSQL = "INSERT INTO " + scheduleTypesTableName + "(ScheduleType) "

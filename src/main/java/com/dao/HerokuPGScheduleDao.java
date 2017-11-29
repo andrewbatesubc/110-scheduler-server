@@ -24,7 +24,8 @@ public class HerokuPGScheduleDao implements ScheduleDao {
     @Override
     public void setScheduleInDataSource(final ScheduleDto newSchedule) throws URISyntaxException, SQLException {
         updateTable(sqlStatements.createUpsertScheduleSQL(newSchedule.getTaName().trim().toLowerCase(),
-                newSchedule.getScheduleType().trim().toLowerCase(), newSchedule.getSchedulesByDay()));
+                newSchedule.getScheduleType().trim().toLowerCase(), newSchedule.getDate().trim().toLowerCase(),
+                newSchedule.getSchedulesByDay()));
     }
 
     @Override
