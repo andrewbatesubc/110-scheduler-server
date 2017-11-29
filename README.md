@@ -34,9 +34,13 @@ Now you are free to make changes locally and push them using "git push heroku ma
 
 
 
-NOTE:
+# NOTE
 
 Heroku is deployed with the following credentials:
 
-cpsc110availability@gmail.com
+
+user: cpsc110availability@gmail.com
 pass: cpsc110admin
+
+
+These are also the credentials to access the actual gmail account should you need to
