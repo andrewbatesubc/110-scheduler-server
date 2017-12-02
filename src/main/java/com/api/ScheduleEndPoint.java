@@ -38,6 +38,10 @@ public class ScheduleEndPoint {
 
     @RequestMapping(method= RequestMethod.POST, value = "/setSchedule")
     public void setSchedule(@RequestBody ScheduleDto schedule) throws URISyntaxException, SQLException {
+        String taName = schedule.getTaName();
+        if(taName == null || taName.isEmpty() || taName.length() <= 3){
+            throw new SQLException("Cannot have an empty TA name");
+        }
         scheduleController.setSchedule(schedule);
     }
 
